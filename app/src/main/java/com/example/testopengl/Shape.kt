@@ -9,8 +9,9 @@ class Shape {
 
     val vShaderCode = """
         attribute  vec2 vpos;
+        uniform mat4 pmat;
         void main() {
-          gl_Position = vec4(vpos, 0.0, 1.0);
+          gl_Position = pmat * vec4(vpos, 0.0, 1.0);
         }
     """
     val fShaderCode = """
@@ -21,7 +22,7 @@ class Shape {
         }
     """
 
-    val identityMatrix: Array<Float> = arrayOf (
+    val identityMatrix =  floatArrayOf(
         1f, 0f, 0f, 0f,
         0f, 1f, 0f, 0f,
         0f, 0f, 1f, 0f,
@@ -41,6 +42,8 @@ class Shape {
 
     fun drawTriangle(fcol: FloatBuffer?, vpos: FloatBuffer) {
         GLES20.glUseProgram(shaderProg) // シェーダプログラム使用開始
+        val pmatx = GLES20.glGetUniformLocation(shaderProg, "pmat") // uniform変数pmatのindex取得
+        GLES20.glUniformMatrix4fv(pmatx,1,false,identityMatrix,0)
         val fcolx = GLES20.glGetUniformLocation(shaderProg, "fcol") // uniform変数fcolのindex取得
         GLES20.glUniform4fv(fcolx, 1, fcol) // 色情報の場所と書式を設定
         val vposx = GLES20.glGetAttribLocation(shaderProg, "vpos") // attribute変数vposのindex取得
