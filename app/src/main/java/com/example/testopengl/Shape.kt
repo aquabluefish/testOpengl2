@@ -3,6 +3,9 @@ package com.example.testopengl
 import android.opengl.GLES20
 import android.util.Log
 import java.nio.FloatBuffer
+import android.renderscript.Matrix4f
+import java.lang.Math.*
+
 
 class Shape {
     private val shaderProg: Int
@@ -29,6 +32,45 @@ class Shape {
         0f, 0f, 0f, 1f
     )
 
+    fun rotateX(degree: Float):FloatArray {
+        val radian = toRadians(degree.toDouble())
+        val sin = sin(radian).toFloat()
+        val cos = cos(radian).toFloat()
+        val m =  floatArrayOf(
+            1.0f,   0.0f,   0.0f,   0.0f,
+            0.0f,   +cos,   -sin,   0.0f,
+            0.0f,   +sin,   +cos,   0.0f,
+            0.0f,   0.0f,   0.0f,   1.0f
+        )
+        return m
+    }
+
+    fun rotateY(degree: Float):FloatArray {
+        val radian = toRadians(degree.toDouble())
+        val sin = sin(radian).toFloat()
+        val cos = cos(radian).toFloat()
+        val m =  floatArrayOf(
+            +cos,   0.0f,   +sin,   0.0f,
+            0.0f,   1.0f,   0.0f,   0.0f,
+            -sin,   0.0f,   +cos,   0.0f,
+            0.0f,   0.0f,   0.0f,   1.0f
+        )
+        return m
+    }
+
+    fun rotateZ(degree: Float):FloatArray {
+        val radian = toRadians(degree.toDouble())
+        val sin = sin(radian).toFloat()
+        val cos = cos(radian).toFloat()
+        val m =  floatArrayOf(
+            +cos,   -sin,   0.0f,   0.0f,
+            +sin,   +cos,   0.0f,   0.0f,
+            0.0f,   0.0f,   1.0f,   0.0f,
+            0.0f,   0.0f,   0.0f,   1.0f
+        )
+        return m
+    }
+
     init {
         val vShader = ldShader(GLES20.GL_VERTEX_SHADER, vShaderCode) // バーテックスシェーダコンパイル
         val fShader = ldShader(GLES20.GL_FRAGMENT_SHADER, fShaderCode) // フラグメントシェーダコンパイル
@@ -41,9 +83,10 @@ class Shape {
     }
 
     fun drawTriangle(fcol: FloatBuffer?, vpos: FloatBuffer) {
+        val angle = ((System.currentTimeMillis()*0.1)%360).toFloat()
         GLES20.glUseProgram(shaderProg) // シェーダプログラム使用開始
         val pmatx = GLES20.glGetUniformLocation(shaderProg, "pmat") // uniform変数pmatのindex取得
-        GLES20.glUniformMatrix4fv(pmatx,1,false,identityMatrix,0)
+        GLES20.glUniformMatrix4fv(pmatx,1,false,rotateZ(angle),0)
         val fcolx = GLES20.glGetUniformLocation(shaderProg, "fcol") // uniform変数fcolのindex取得
         GLES20.glUniform4fv(fcolx, 1, fcol) // 色情報の場所と書式を設定
         val vposx = GLES20.glGetAttribLocation(shaderProg, "vpos") // attribute変数vposのindex取得

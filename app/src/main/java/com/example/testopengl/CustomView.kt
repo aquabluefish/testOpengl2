@@ -1,12 +1,9 @@
 package com.example.testopengl
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 
 class CustomView : GLSurfaceView {
@@ -17,12 +14,22 @@ class CustomView : GLSurfaceView {
         this.setEGLContextClientVersion(2)
         this.setRenderer(GLRenderer())
         this.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY)
-        renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
+//        renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
     }
 
     override protected fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthSize = View.MeasureSpec.getSize(widthMeasureSpec)
         val heightSize = View.MeasureSpec.getSize(heightMeasureSpec)
         setMeasuredDimension(widthSize, heightSize)
+        Log.d("testOpengl", "w=$widthSize, h=$heightSize")
     }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        val vvv = findViewById<View>(R.id.customView1)
+        Log.d("ViewSizex : ", "w = "+vvv.getWidth()+"  h = "+vvv.getHeight())
+        Log.d("ViewSizem : ", "w = "+getMeasuredWidth()+"  h = "+getMeasuredHeight())
+    }
+
+
 }
