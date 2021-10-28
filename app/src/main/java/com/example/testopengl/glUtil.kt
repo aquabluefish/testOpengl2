@@ -44,3 +44,10 @@ import java.nio.FloatBuffer
         return convert(args)
     }
 
+
+//    fun resize(w: Int, h: Int) {
+//        val scale: Double = NEAR * tan(toRadians(FOVY * 0.5))
+//        val x: Double = w * scale * ASPECT / WIDTH
+//        val y: Double = h * scale / HEIGHT
+//        glFrustum(-x, x, -y, y, NEAR, FAR)
+//    }

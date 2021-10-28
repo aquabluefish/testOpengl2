@@ -12,6 +12,7 @@ class CustomView : GLSurfaceView {
 
     init {
         this.setEGLContextClientVersion(2)
+//        setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         this.setRenderer(GLRenderer())
         this.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY)
 //        renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY

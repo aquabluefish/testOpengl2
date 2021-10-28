@@ -22,5 +22,4 @@ class testOpengl : Activity() {
             Log.d("ViewSize : ", "w = "+vvv.getWidth()+"  h = "+vvv.getHeight())
         }
     }
-
 }
