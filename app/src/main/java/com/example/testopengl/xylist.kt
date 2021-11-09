@@ -90,6 +90,7 @@ open class xylist : Point, Cloneable {
         return size
     }
 
+    // 最後の頂点を返す
     open fun last(): xylist? {
         var next: xylist? = this
         while (next != null && next.next != null) {
@@ -130,7 +131,7 @@ open class xylist : Point, Cloneable {
         return false
     }
 
-    // 冗長点削除（同一点削除も含む、Close処理も同時に行う）
+    // Close処理後、冗長点削除（同一点削除も含む）
     open fun trim(): xylist? {
         var next: xylist? = this
         var head: xylist? = this
@@ -190,6 +191,8 @@ open class xylist : Point, Cloneable {
         return Point(this.x * i, this.y * i)
     }
 
+
+    // xylist[index]の取得
     operator fun get(index: Int): xylist? {
         var i = 0
         var next: xylist? = this
@@ -202,6 +205,7 @@ open class xylist : Point, Cloneable {
         return next
     }
 
+    // xylist[index] = xyの設定
     operator fun set(index: Int, xy: Point): xylist? {
         var i = 0
         var next: xylist? = this

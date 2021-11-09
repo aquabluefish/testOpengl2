@@ -36,44 +36,27 @@ class testOpengl : Activity() {
         Log.d("testOpengl", "yyy=" + yyy.dump())
 
         var ppp = xylist(
-            500,
-            500,
-            500,
-            500,
-            1500,
-            500,
-            1500,
-            0,
-            1500,
-            -500,
-            500,
-            -500,
-            500,
-            -1500,
-            -500,
-            -1500,
-            -500,
-            -500,
-            -2000,
-            -500,
-            -1500,
-            -500,
-            -500,
-            500,
-            -500,
-            500,
-            -500,
-            1500,
-            -1000,
-            1500,
-            500,
-            1500,
-            500,
-            500,
-            500,
-            500
+            500, 500,
+            500, 500,
+            1500, 500,
+            1500, 0,
+            1500, -500,
+            500, -500,
+            500, -1500,
+            -500, -1500,
+            -500, -500,
+            -2000, -500,
+            -1500, -500,
+            -1500, 500,
+            -500, 500,
+            -500, 500,
+            -500, 1500,
+            -1000, 1500,
+            500, 1500,
+            500, 500,
+            500, 500
         )
-        ppp = ppp.reverse()!!
+//        ppp = ppp.reverse()!!
         Log.d("testOpengl", "ppp0=" + ppp[0])
         Log.d("testOpengl", "ppp1=" + ppp[1])
         Log.d("testOpengl", "ppp2=" + ppp[2])
@@ -108,6 +91,38 @@ class testOpengl : Activity() {
             Log.d("testOpengl", "isIntersect(q0,q10)=" + isIntersect(qqq[0], qqq[10]))
             Log.d("testOpengl", "isIntersect(q0,q11)=" + isIntersect(qqq[0], qqq[11]))
             Log.d("testOpengl", "isIntersect(q0,q12)=" + isIntersect(qqq[0], qqq[12]))
+            Log.d("testOpengl", "qqq=" + qqq.dump())
+            Log.d("testOpengl","qqq.diagonal(0,1)="+qqq.diagonal(qqq[0],qqq[1]))
+            Log.d("testOpengl","qqq.diagonal(0,2)="+qqq.diagonal(qqq[0],qqq[2]))
+            Log.d("testOpengl","qqq.diagonal(0,3)="+qqq.diagonal(qqq[0],qqq[3]))
+            Log.d("testOpengl","qqq.diagonal(0,4)="+qqq.diagonal(qqq[0],qqq[4]))
+            Log.d("testOpengl","qqq.diagonal(0,5)="+qqq.diagonal(qqq[0],qqq[5]))
+            Log.d("testOpengl","qqq.diagonal(0,9)="+qqq.diagonal(qqq[0],qqq[9]))
+            Log.d("testOpengl","qqq.diagonal(0,10)="+qqq.diagonal(qqq[0],qqq[10]))
+            Log.d("testOpengl","qqq.diagonal(0,11)="+qqq.diagonal(qqq[0],qqq[11]))
+            Log.d("testOpengl","qqq.diagonal(1,2)="+qqq.diagonal(qqq[1],qqq[2]))
+            Log.d("testOpengl","qqq.diagonal(1,3)="+qqq.diagonal(qqq[1],qqq[3]))
+            Log.d("testOpengl","qqq.diagonal(1,4)="+qqq.diagonal(qqq[1],qqq[4]))
+            Log.d("testOpengl","qqq.diagonal(2,3)="+qqq.diagonal(qqq[2],qqq[3]))
+            Log.d("testOpengl","qqq.diagonal(2,4)="+qqq.diagonal(qqq[2],qqq[4]))
+            Log.d("testOpengl","qqq.diagonal(2,5)="+qqq.diagonal(qqq[2],qqq[5]))
+            Log.d("testOpengl","qqq.diagonal(2,6)="+qqq.diagonal(qqq[2],qqq[6]))
+            Log.d("testOpengl","qqq.diagonal(2,7)="+qqq.diagonal(qqq[2],qqq[7]))
+            Log.d("testOpengl","qqq.diagonal(2,8)="+qqq.diagonal(qqq[2],qqq[8]))
+            Log.d("testOpengl","qqq.diagonal(2,9)="+qqq.diagonal(qqq[2],qqq[9]))
+            Log.d("testOpengl","qqq.diagonal(2,10)="+qqq.diagonal(qqq[2],qqq[10]))
+            Log.d("testOpengl","qqq.diagonal(2,11)="+qqq.diagonal(qqq[2],qqq[11]))
+            Log.d("testOpengl","qqq.diagonal(2,0)="+qqq.diagonal(qqq[2],qqq[0]))
+            Log.d("testOpengl","qqq.diagonal(8,10)="+qqq.diagonal(qqq[8],qqq[10]))
+
+            Log.d("testOpengl","qqq.pointInArea(10,10)="+qqq.pointInArea(Point(10,10)))
+            Log.d("testOpengl","qqq.pointInArea(1000,1000)="+qqq.pointInArea(Point(1000,1000)))
+            Log.d("testOpengl","qqq.pointInArea(123,-100)="+qqq.pointInArea(Point(123,-100)))
+            Log.d("testOpengl","qqq.pointInArea(-1000,-1000)="+qqq.pointInArea(Point(-1000,-1000)))
+            Log.d("testOpengl","qqq.pointInArea(-400,-400)="+qqq.pointInArea(Point(-400,-400)))
+            Log.d("testOpengl","qqq.pointInArea(-2000,3000)="+qqq.pointInArea(Point(-2000,3000)))
+
+            qqq.triangulate()
         }
 
     }

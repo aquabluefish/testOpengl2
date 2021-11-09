@@ -1,19 +1,24 @@
 package com.example.testopengl
 
-class vertex: xylist {
+import android.graphics.Point
+import android.util.Log
+import androidx.core.graphics.minus
+import java.lang.Math.abs
+
+class vertex : xylist {
 
     var prev: vertex? = null
-    var ear: vertex? = null
+    var ear: Boolean = false
 
-    constructor(): super() {
+    constructor() : super() {
     }
 
-    constructor(prev: vertex?, ear: vertex?): super() {
+    constructor(prev: vertex?, ear: Boolean) : super() {
         this.prev = prev
         this.ear = ear
     }
 
-    constructor(x: Int, y: Int, next: vertex?) {
+    constructor(x: Int, y: Int, next: vertex?) : super() {
         this.x = x
         this.y = y
         this.next = next
@@ -32,16 +37,15 @@ class vertex: xylist {
     constructor(xy: xylist) {
         var xxx = this
         var xx: xylist? = xy
-        while(xx != null) {
+        while (xx != null) {
             xxx.x = xx.x
             xxx.y = xx.y
             if (xx.next === xy) {       // close xylist
                 xxx.next = this
                 this.prev = xxx
                 break
-            }
-            else if (xx.next != null) {
-                xxx.next = vertex(xxx, null)
+            } else if (xx.next != null) {
+                xxx.next = vertex(xxx, false)
                 xxx = xxx.next as vertex
             }
             xx = xx.next
@@ -75,4 +79,78 @@ class vertex: xylist {
         }
         return false
     }
+
+    // 凹多角形の対角線チェック
+    fun diagonal(p1: Point?, p2: Point?): Boolean {
+        if (p1 == null || p2 == null) return false
+        var next: vertex = this
+        do {
+            if ((next == p1 && next.next == p2) || (next == p2 && next.next == p1)) return false
+            if (next != p1 && next.next != p1 && next != p2 && next.next != p2)
+                if (isIntersect(p1, p2, next, next.next!!)) return false
+            if (!pointInArea(median(p1,p2))) return false   //対角線が図形外ならダメ
+            next = next.next as vertex
+        } while (next != this)
+        return true
+    }
+
+    fun earInit() {
+        var next: vertex? = this
+        while (next != null && next.next != null && next.prev != null) {
+            next.ear = diagonal(next.prev!!, next.next!!)
+            if (next.next === this) break
+            next = next.next as vertex?
+        }
+    }
+
+    // 凹多角形の三角形分割
+    fun triangulate() {
+        var vertices = this
+        var nvertices = abs(size())
+        var n = nvertices
+        earInit()
+        while (n > 3) {
+            var v2 = vertices
+            do {
+                if (v2.ear) {
+                    val v3 = v2.next as vertex
+                    val v4 = v3.next as vertex
+                    val v1 = v2.prev!!
+                    val v0 = v1.prev!!
+                    printDiagonal(v1, v3)
+                    v1!!.ear = diagonal(v0, v3)
+                    v3!!.ear = diagonal(v1, v4)
+                    v1.next = v3
+                    v3.prev = v1
+                    vertices = v3
+                    n--
+                    break
+                }
+                v2 = v2.next as vertex
+            } while (v2 != vertices)
+        }
+    }
+
+    fun printDiagonal(p1: Point, p2: Point) {
+        Log.d("testOpengl", "printDiagonal=" + p1 + p2)
+    }
+
+    //　凹多角形に対する点の内外判定（angleでacos使うのでちょっと遅いかも）
+    fun pointInArea(target: Point?): Boolean {
+        var result = 0.0f
+        if (target == null) return false
+        var next: vertex = this
+        do {
+            val l1 = next - target
+            val l2 = next.next!! - target
+            var angle = angle(l1,l2)
+            val cross = cross(l1,l2)
+            if (cross<0) angle *= -1
+            result += angle
+            next = next.next as vertex
+        } while (next != this)
+        return abs(result) >= 0.01f
+    }
+
+
 }
