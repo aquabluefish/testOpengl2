@@ -56,7 +56,7 @@ class testOpengl : Activity() {
             500, 500,
             500, 500
         )
-//        ppp = ppp.reverse()!!
+        ppp = ppp.reverse()!!
         Log.d("testOpengl", "ppp0=" + ppp[0])
         Log.d("testOpengl", "ppp1=" + ppp[1])
         Log.d("testOpengl", "ppp2=" + ppp[2])
