@@ -57,6 +57,10 @@ class testOpengl : Activity() {
             500, 500
         )
         ppp = ppp.reverse()!!
+        Log.d("testOpengl", "ppp0=" + ppp.dump())
+        if (ppp.areaSign2() < 0) ppp = ppp.reverse()!!
+        Log.d("testOpengl", "pppr=" + ppp.dump())
+
         Log.d("testOpengl", "ppp0=" + ppp[0])
         Log.d("testOpengl", "ppp1=" + ppp[1])
         Log.d("testOpengl", "ppp2=" + ppp[2])
@@ -74,13 +78,9 @@ class testOpengl : Activity() {
             Log.d("testOpengl", "ccw(p12)=" + ccw(ppp[12]))
             Log.d("testOpengl", "ppp.size=" + ppp.size())
             Log.d("testOpengl", "ppp=" + ppp.dump())
-            ppp.close()
-            Log.d("testOpengl", "pppc=" + ppp.dump())
-            ppp.trim0()
-            Log.d("testOpengl", "ppp0=" + ppp.dump())
+//            ppp.close()
             ppp = ppp.trim()!!
             Log.d("testOpengl", "pppx=" + ppp.dump())
-            Log.d("testOpengl", "ppp.size=" + ppp.size())
             var qqq = vertex(ppp)
             Log.d("testOpengl", "qqq=" + qqq.dump())
             Log.d("testOpengl", "qqqx=" + qqq.dumpx())
@@ -122,9 +122,9 @@ class testOpengl : Activity() {
             Log.d("testOpengl","qqq.pointInArea(-400,-400)="+qqq.pointInArea(Point(-400,-400)))
             Log.d("testOpengl","qqq.pointInArea(-2000,3000)="+qqq.pointInArea(Point(-2000,3000)))
 
-            qqq.triangulate()
-        }
+            qqq.Triangulate()
 
+        }
     }
 }
 

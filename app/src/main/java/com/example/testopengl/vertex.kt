@@ -34,6 +34,8 @@ class vertex : xylist {
         y = zz[i * 2 + 1]
     }
 
+    // xylistからvertexを作成する
+    // trim済みのCCWのxylistを渡すようにする（areaSign2で確認する）
     constructor(xy: xylist) {
         var xxx = this
         var xx: xylist? = xy
@@ -103,10 +105,20 @@ class vertex : xylist {
         }
     }
 
-    // 凹多角形の三角形分割
+    fun EarInit() {
+        var next: vertex? = this
+        while (next != null && next.next != null && next.prev != null) {
+            next.ear = Diagonal(next.prev!!, next.next!! as vertex)
+            if (next.next === this) break
+            next = next.next as vertex?
+        }
+    }
+
+    // 凹多角形の三角形分割（おそらく破壊的な読み込みをする）
     fun triangulate() {
         var vertices = this
         var n = abs(size())
+        var m = n
         earInit()
         while (n > 3) {
             var v2 = vertices
@@ -122,9 +134,38 @@ class vertex : xylist {
                     v1.next = v3
                     v3.prev = v1
                     vertices = v3
-                    n--
+                    m = n--
                     break
                 }
+                else if (--m < 0) return    // earが見つからない異常時用ループ脱出
+                v2 = v2.next as vertex
+            } while (v2 != vertices)
+        }
+    }
+
+    fun Triangulate() {
+        var vertices = this
+        var n = abs(size())
+        var m = n
+        EarInit()
+        while (n > 3) {
+            var v2 = vertices
+            do {
+                if (v2.ear) {
+                    val v3 = v2.next as vertex
+                    val v4 = v3.next as vertex
+                    val v1 = v2.prev!!
+                    val v0 = v1.prev!!
+                    printDiagonal(v1, v3)
+                    v1!!.ear = Diagonal(v0, v3)
+                    v3!!.ear = Diagonal(v1, v4)
+                    v1.next = v3
+                    v3.prev = v1
+                    vertices = v3
+                    m = n--
+                    break
+                }
+                else if (--m < 0) return    // earが見つからない異常時用ループ脱出
                 v2 = v2.next as vertex
             } while (v2 != vertices)
         }
@@ -211,6 +252,10 @@ private fun AreaSign(a: Point, b: Point, c: Point): Int {
     if (area2 > 0.5) return 1
     else if (area2 < -0.5) return -1
     else return 0
+}
+
+fun abc(aaa: Int): Int {
+    return if (aaa > 0.5) 1 else if (aaa < -0.5) -1 else 0
 }
 
 /*---------------------------------------------------------------------

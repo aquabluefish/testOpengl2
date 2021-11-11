@@ -179,8 +179,20 @@ open class xylist : Point, Cloneable {
             if (next.next === this) break
             next = next.next
         }
-        str += "(" + size().toString() + ")"
+        str += "(" + size().toString() + ") S=" + areaSign2().toString()
         return str
+    }
+
+    // 面積の２倍を返す（CCWなら正,CWなら負となる）
+    fun areaSign2(): Double {
+        var s: Double = 0.0
+        var next = this
+        while (next != null && next.next != null) {
+            s += cross(next, next.next!!)
+            if (next.next === this) break
+            next = next.next!!
+        }
+        return s
     }
 
     companion object {
